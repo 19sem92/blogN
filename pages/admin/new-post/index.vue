@@ -1,7 +1,7 @@
 <template>
     <div class="admin-new-post-page">
         <section class="new-post-form">
-            <AdminPostForm/>
+            <AdminPostForm @submit="onSubmit"/>
 
         </section>
     </div>
@@ -9,6 +9,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import AdminPostForm from '@/components/Admin/AdminPostForm.vue'
 
 
@@ -17,6 +18,14 @@
         components: {
             AdminPostForm
         },
+        methods: {
+            onSubmit(postData){
+                axios.post('https://blogn-1dade.firebaseio.com/posts.json', {...postData, updatedDate: new Date()})
+                    .then(res => console.log(res))
+                    .catch(e => console.log(e))
+            }
+
+        }
 
     }
 

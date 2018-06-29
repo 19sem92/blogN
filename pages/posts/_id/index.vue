@@ -21,22 +21,39 @@
 </template>
 
 <script>
-    export default {
-        asyncData(context, cb){
-            console.log(context);
-            setTimeout(()=> {
-                cb(null, {loadedPost:
-                    {
-                        id: 'id-1',
-                        title: 'Hello there! Post Id: '+ context.route.params.id, // this.$route.params.id (In asyncData we do not have access to this like vue ex)
-                        previewText: 'This is my first post',
-                        author: 'Sergey',
-                        updatedDate: new Date(),
-                        content: 'My awesome content',
-                        thumbnail: 'https://cdn.techinasia.com/wp-content/uploads/2017/06/47724337_l.jpg'},
-                })
+    import axios from 'axios'
 
-            } ,1550)
+    export default {
+
+
+
+//        asyncData(context, cb){
+//            console.log(context);
+//            setTimeout(()=> {
+//                cb(null, {loadedPost:
+//                    {
+//                        id: 'id-1',
+//                        title: 'Hello there! Post Id: '+ context.route.params.id, // this.$route.params.id (In asyncData we do not have access to this like vue ex)
+//                        previewText: 'This is my first post',
+//                        author: 'Sergey',
+//                        updatedDate: new Date(),
+//                        content: 'My awesome content',
+//                        thumbnail: 'https://cdn.techinasia.com/wp-content/uploads/2017/06/47724337_l.jpg'},
+//                })
+//
+//            } ,1550)
+//        }
+
+        asyncData(context){
+            return axios.get('https://blogn-1dade.firebaseio.com/posts/' + context.params.id + '.json')
+                .then(res => {
+                    console.log(res.data);
+                    return{
+                        loadedPost: res.data
+                    }
+
+                })
+                .catch(e => context.error(e))
         }
     }
 

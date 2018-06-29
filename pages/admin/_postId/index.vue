@@ -2,14 +2,14 @@
     <div class="admin-post-page">
         <p>Admin Post id: {{$route.params.postId}}</p>
         <section class="update-form">
-            <AdminPostForm :post="loadedPost" />
+            <AdminPostForm :post="loadedPost"  @submit="onSubmit"/>
         </section>
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
     import AdminPostForm from '@/components/Admin/AdminPostForm.vue'
-
 
     export default {
         layout: 'admin',
@@ -17,14 +17,38 @@
             AdminPostForm
         },
 
-        data(){
-            return {
-                loadedPost: {
-                    author: 'Sergey',
-                    title: 'My post',
-                    content: 'Some content!!!',
-                    thumbnailLink: 'https://www.housingwire.com/ext/resources/images/editorial/A-New-Big-Images/technology/tech_two.jpg?1470759677'
-                }
+        asyncData(context){
+            return axios
+                .get('https://blogn-1dade.firebaseio.com/posts/' + context.params.postId + '.json')
+                .then(res => {
+                    console.log('https://blogn-1dade.firebaseio.com/posts/' + context.params.postId + '.json');
+                    return {
+                        loadedPost: res.data
+                    }
+                })
+                .catch(e => context.error())
+        },
+//        data(){
+//            return {
+//                loadedPost: {
+//                    author: 'Sergey',
+//                    title: 'My post',
+//                    content: 'Some content!!!',
+//                    thumbnailLink: 'https://www.housingwire.com/ext/resources/images/editorial/A-New-Big-Images/technology/tech_two.jpg?1470759677'
+//                }
+//            }
+//        },
+
+        methods: {
+            onSubmit(editedPost){
+                axios.put('https://blogn-1dade.firebaseio.com/posts/' + this.$route.params.postId + '.json', editedPost)
+                    .then(res => {
+                        console.log(res.data);
+                        this.$router.push('/admin')
+
+                    })
+                    .catch(e => context.error(e))
+
             }
         }
 

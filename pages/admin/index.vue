@@ -5,7 +5,7 @@
         </section>
         <section class="existing-posts">
             <h1>existing posts</h1>
-            <PostList isAdmin/>
+            <PostList :posts="loadedPostsComp" isAdmin/>
         </section>
     </div>
 
@@ -20,6 +20,11 @@
         components: {
             PostList,
             AppButton
+        },
+        computed: {
+            loadedPostsComp(){
+                return this.$store.getters.loadedPosts
+            }
         }
     }
 
