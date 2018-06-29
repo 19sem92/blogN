@@ -1,13 +1,13 @@
 <template>
     <div class="single-post-page">
         <section class="post">
-            <h1 class="post-title">Title of the post</h1>
+            <h1 class="post-title">{{ loadedPost.title }}</h1>
             <div class="post-details">
-                <div class="post-detail">last updated on xxx</div>
-                <div class="post-detail">written by NAME</div>
+                <div class="post-detail">last updated on {{loadedPost.updatedDate}}</div>
+                <div class="post-detail">written by {{loadedPost.author}}</div>
             </div>
             <p class="post-content">
-                Content of the post
+                {{loadedPost.content}}
             </p>
         </section>
         <section class="post-feedback">
@@ -21,7 +21,24 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        asyncData(context, cb){
+            console.log(context);
+            setTimeout(()=> {
+                cb(null, {loadedPost:
+                    {
+                        id: 'id-1',
+                        title: 'Hello there! Post Id: '+ context.route.params.id, // this.$route.params.id (In asyncData we do not have access to this like vue ex)
+                        previewText: 'This is my first post',
+                        author: 'Sergey',
+                        updatedDate: new Date(),
+                        content: 'My awesome content',
+                        thumbnail: 'https://cdn.techinasia.com/wp-content/uploads/2017/06/47724337_l.jpg'},
+                })
+
+            } ,1550)
+        }
+    }
 
 </script>
 

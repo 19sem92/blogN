@@ -3,36 +3,47 @@
     <section class="intro">
       <h1>Get the latest tech news!</h1>
     </section>
-    <section class="featured-posts">
+    <PostList :posts="loadedPosts"/>
 
-      <PostPreview
-        id="id-1"
-        thumbnail="https://cdn.techinasia.com/wp-content/uploads/2017/06/47724337_l.jpg"
-        title="Hello there!"
-        previewText="This is my first post"
-
-      />
-      <PostPreview
-        id="id-2"
-        thumbnail="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYxFi0TeDiL4chNC7r1zqPwKJDRSiEXA2X7nF07VLXi0f1iHps2Q"
-        title="Hello there again!!!!"
-        previewText="This is my second post"
-
-      />
-
-    </section>
   </div>
 
 </template>
 
 <script>
-import PostPreview from '~/components/Posts/PostPreview.vue'
 
-export default {
-  components: {
-      PostPreview
+
+  import PostList from '~/components/Posts/PostList.vue'
+
+  export default {
+      components: {
+          PostList
+      },
+
+      computed: {
+          loadedPosts(){
+              return this.$store.getters.loadedPosts
+          }
+      }
+//      asyncData(context, cb){
+//        console.log(context);
+//          setTimeout(()=> {
+//              cb(null, {loadedPosts: [
+//                  {id: 'id-1', title: 'Hello there!', previewText: 'This is my first post', thumbnail: 'https://cdn.techinasia.com/wp-content/uploads/2017/06/47724337_l.jpg'},
+//                  {id: 'id-2', title: 'Hello there again!!!!', previewText: 'This is my second post', thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYxFi0TeDiL4chNC7r1zqPwKJDRSiEXA2X7nF07VLXi0f1iHps2Q'}
+//              ]})
+//
+//          } ,1550)
+//      }
+
+//      data(){
+//          return {
+//              loadedPosts: []
+//
+//          }
+//      },
+
   }
-}
+
 </script>
 
 <style scoped>
@@ -65,15 +76,6 @@ export default {
     .intro h1 {
       font-size: 2rem;
     }
-  }
-
-  .featured-posts {
-    display: flex;
-    padding: 20px;
-    box-sizing: border-box;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
   }
 
 </style>
