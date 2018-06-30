@@ -68,6 +68,10 @@ module.exports = {
     }
   },
 
+  env: {
+    fbAPIKey: 'AIzaSyBdc1QbtP571s_Q4sjztNjDqO4iLXCR6rg'
+  },
+
   transition: {
     name: 'page',
     mode: 'out-in'
