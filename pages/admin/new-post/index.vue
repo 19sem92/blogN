@@ -20,9 +20,9 @@
         },
         methods: {
             onSubmit(postData){
-                axios.post('https://blogn-1dade.firebaseio.com/posts.json', {...postData, updatedDate: new Date()})
-                    .then(res => console.log(res))
-                    .catch(e => console.log(e))
+              this.$store.dispatch('addPost', postData).then(()=>{
+                  this.$router.push('/admin')
+              })
             }
 
         }

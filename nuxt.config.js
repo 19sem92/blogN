@@ -7,7 +7,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title:   'Hello!!', //pkg.name,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -22,18 +22,24 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#FFFFFF' },
+  // loading: { color: 'yellow' },
+
+  // loading: false,
+    loading: { color: 'yellow', failedColor: 'green', height: '20px', duration: 5000},
 
   /*
   ** Global CSS
   */
   css: [
+      '~assets/styles/main.css'
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+      '~plugins/core-components.js',
+      '~plugins/date-filter.js'
   ],
 
   /*
@@ -60,5 +66,10 @@ module.exports = {
     extend(config, ctx) {
       
     }
+  },
+
+  transition: {
+    name: 'page',
+    mode: 'out-in'
   }
 }

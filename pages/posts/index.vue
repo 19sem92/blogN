@@ -116,13 +116,8 @@ nuxtServerInit
 
 <script>
 
-    import PostList from '~/components/Posts/PostList.vue'
 
     export default {
-        components: {
-            PostList
-        },
-
         computed: {
             loadedPostsComp(){
                 return this.$store.getters.loadedPosts

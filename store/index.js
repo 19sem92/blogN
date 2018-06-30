@@ -15,6 +15,7 @@ const createStore = () => {
             },
             editPost(state, editedPost){
                 const postIndex = state.loadedPosts.findIndex( (post) => {
+                    console.log(post.id);
                     return post.id === editedPost.id
                 });
                 state.loadedPosts[postIndex] = editedPost
@@ -35,15 +36,45 @@ const createStore = () => {
             nuxtServerInit(vuexContext, context){
                 return axios.get('https://blogn-1dade.firebaseio.com/posts.json')
                     .then(res => {
+                        console.log('before:',vuexContext.state.loadedPosts);
                         const postsArr = [];
                         for (const key in res.data ){
                             postsArr.push({ ...res.data[key], id: key})
                         }
-                        vuexContext.commit('setPosts', postsArr)
+                        vuexContext.commit('setPosts', postsArr);
+                        console.log('after: ',vuexContext.state.loadedPosts);
                     })
                     .catch(e => context.error(e))
 
             },
+            addPost(vuexContext, postData) {
+                const createdPost = {
+                    ...postData,
+                    updatedDate: new Date()
+                };
+                console.log(createdPost);
+                return axios
+                    .post('https://blogn-1dade.firebaseio.com/posts.json', createdPost)
+                        .then(res =>{
+                            vuexContext.commit('addPost', {...createdPost, id: res.data.name});
+
+                        })
+                        .catch(e => console.log(e))
+            },
+
+            editPost(vuexContext, editedPost) {
+                return axios
+                    .put('https://blogn-1dade.firebaseio.com/posts/' + editedPost.id + '.json', editedPost)
+                        .then(res => {
+                            console.log(vuexContext.state.loadedPosts, "editPost:", editedPost);
+                            console.log("editPostHTTP//!!!!!<<<<<>>>>:", 'https://blogn-1dade.firebaseio.com/posts/' + editedPost.id + '.json', editedPost);
+                            vuexContext.commit('editPost', editedPost);
+
+                        })
+                        .catch(e => context.error(e))
+
+            },
+
             setPosts(vuexContext, posts){
                 vuexContext.commit('setPosts', posts)
             }

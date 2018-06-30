@@ -40,14 +40,19 @@
 //        },
 
         methods: {
-            onSubmit(editedPost){
-                axios.put('https://blogn-1dade.firebaseio.com/posts/' + this.$route.params.postId + '.json', editedPost)
-                    .then(res => {
-                        console.log(res.data);
-                        this.$router.push('/admin')
 
-                    })
-                    .catch(e => context.error(e))
+            onSubmit(editedPost){
+
+                this.$store.dispatch('editPost', {...editedPost, id: this.$route.params.postId}).then(() => {
+                    this.$router.push('/admin')
+                })
+//                axios.put('https://blogn-1dade.firebaseio.com/posts/' + this.$route.params.postId + '.json', editedPost)
+//                    .then(res => {
+//                        console.log(res.data);
+//                        this.$router.push('/admin')
+//
+//                    })
+//                    .catch(e => context.error(e))
 
             }
         }
