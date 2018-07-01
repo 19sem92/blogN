@@ -113,7 +113,9 @@ const createStore = () => {
                         Cookie.set('expDate', new Date().getTime() + Number.parseInt(res.data.expiresIn) *1000);
 
                         // vuexContext.dispatch('setLogoutTimer', res.data.expiresIn * 1000)
+                        return axios.post('http://localhost:3000/api/track-data', {data: 'authenticated'})
                     })
+
                     .catch(e => console.log(e))
             },
             // setLogoutTimer(vuexContext, duration) {

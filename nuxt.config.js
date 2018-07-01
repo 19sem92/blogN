@@ -1,4 +1,6 @@
-const pkg = require('./package')
+const pkg = require('./package');
+const bodyParser = require('body-parser');
+const axios = require('axios');
 
 module.exports = {
   mode: 'universal',
@@ -75,5 +77,24 @@ module.exports = {
   transition: {
     name: 'page',
     mode: 'out-in'
+  },
+
+  serverMiddleware: [
+    bodyParser.json(),
+    '~/api'
+  ],
+
+  generate: {
+    routes: function () {
+        return axios.get('https://blogn-1dade.firebaseio.com/posts.json')
+            .then(res => {
+              const routes = [];
+                for (const key in res.data) {
+                  routes.push('/posts/' + key)
+                }
+                return routes // all routs
+                // return '/posts/-LGBNuzfoqcasTgze7Qn' // one rout
+            })
+    }
   }
 }
